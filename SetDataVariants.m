@@ -318,8 +318,35 @@ end;
 
 % my data type 
 % nClasses: 10, dataType: curve, dataSubType: oval_kassini
-for i = 
+% The general equation of a Cassini oval is as follows:
+%                         (x2 + y2 + a2)2 - 4a2x2 = b4.
+% https://ru.wikipedia.org/wiki/ѕараметрическое_представление
+% https://mathcurve.com/courbes2d.gb/cassini/cassini.shtml
+% https://www.mathworks.com/matlabcentral/answers/155224-help-plotting-parametric-equations
+class1.type = 4;
 
+fx = @(t, b, a) (b^4 - t.^4) / (4 * a .* t.^2);
+fy_plus = @(t, b, a) t.*sqrt(1 - ((b.^4 - 4*a.^2*t.^2 - t.^4)/(4*a*t)).^2);
+fy_minus = @(t, b, a) -t.*sqrt(1 - ((b.^4 - 4*a.^2*t.^2 - t.^4)/(4*a*t)).^2);
+tmin = 0; tmax = 5; dt = .2;
+a = 1; b = 2;
+s1 = .14; s2 = .14; r = 0;
+
+testX = fx(tmin:dt:tmax, b, a);
+fprintf('testX:');
+disp(testX);
+
+testY = fy_plus(tmin:dt:tmax, b, a);
+fprintf('testY:')
+disp(testY);
+
+class1.par1 = {{1, tmin, tmax, @(x)fx(x, b, a), @(y)fy_plus(y, b, a)}};
+class1.par2 = {{1, [s1 s2 r]}};
+class1.par3 = {1};
+
+class_data{11} = {class1};
+axis_data{11} = [-5 5 -5 5];
+data_type_names{11} = 'oval_kassini';
 
 % ƒанные, описывающие рапределение исходных классов
 %class_data = {class_data1, class_data2, class_data3, class_data4, class_data5, class_data6, class_data7, class_data8, class_data9, class_data10};
