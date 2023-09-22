@@ -300,22 +300,6 @@ if plot_temp
     axis([0 h*sqrt(3)*(n1-1) 0 3*h*(n2-1)/2]);
 end;
 
-class_data = class_data(~cellfun('isempty',class_data));
-axis_data = axis_data(~cellfun('isempty',axis_data));
-data_type_names = data_type_names(~cellfun('isempty',data_type_names));
-
-axis_rect = axis_data;
-
-data_type_per_class = cell(length(class_data),1);
-C = zeros(1, length(class_data));
-for i = 1:length(class_data)
-    C(i) = length(class_data{i});
-    for j = 1:length(class_data{i})
-        data_type_per_class{i}(j) = class_data{i}{j}.type;
-    end;
-end;
-
-
 % my data type 
 % nClasses: 10, dataType: curve, dataSubType: oval_kassini
 % The general equation of a Cassini oval is as follows:
@@ -342,13 +326,35 @@ fprintf('testY:')
 disp(testY);
 
 class1.type = 4;
-class1.par1 = {{1, tmin, tmax, @(x)fx(x, b, a), @(y)fy_plus(y, b, a)}};
+class1.par1 = {{1, tmin, tmax, @(x)fx(x, b, a), @(y)fy_plus(y, b, a)},
+    {1, tmin, tmax, @(x)fx(x, b, a), @(y)fy_minus(y, b, a)}
+    };
 class1.par2 = {{2, [0.01 0.01]}};
 class1.par3 = {1};
 
-class_data{12} = {class1};
+class_data{12} = {class1, class1};
 axis_data{12} = [-5 5 -5 5];
 data_type_names{12} = 'Oval Kassini';
+
+% my data type end
+
+class_data = class_data(~cellfun('isempty',class_data));
+axis_data = axis_data(~cellfun('isempty',axis_data));
+data_type_names = data_type_names(~cellfun('isempty',data_type_names));
+
+axis_rect = axis_data;
+
+data_type_per_class = cell(length(class_data),1);
+C = zeros(1, length(class_data));
+for i = 1:length(class_data)
+    C(i) = length(class_data{i});
+    for j = 1:length(class_data{i})
+        data_type_per_class{i}(j) = class_data{i}{j}.type;
+    end;
+end;
+
+
+
 
 % Данные, описывающие рапределение исходных классов
 %class_data = {class_data1, class_data2, class_data3, class_data4, class_data5, class_data6, class_data7, class_data8, class_data9, class_data10};
