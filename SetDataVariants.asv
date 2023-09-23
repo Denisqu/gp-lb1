@@ -335,36 +335,12 @@ disp(testY);
 testY_minus = fy_minus(tmin:dt:tmax, b, a);
 fprintf('test_fy_minus:')
 disp(testY_minus);
-
-1.4 2;
-    1.8 2;
-    2 2;
-    2.5 2.5;
-    3 3;
-    4.5 4.5;
-    5 5;
-    5.5 5.5;
-    0 1;
-    0 5.5
-
 %}
 
 
 x_arr = [];
 y_arr = [];
-a_b_variants = [
-    5 2.5
-    1.4 2
-    1.82 2.6
-    2.366 3.38
-    1.5 2
-    1.4 1.4
-    1.6 1.6
-    1.8 1.8
-    2 2
-    0 3.38
-    ];
-
+a_b_variants = [0 1; 1.4 2; 2 2];
 class_data{12} = {};
 
 % https://www.researchgate.net/figure/A-family-of-Cassini-Ovals_fig1_329186459
@@ -380,25 +356,23 @@ y_arr = horzcat(y_arr, y_retarr);
 x_arr = horzcat(x_arr, x_retarr);
 y_arr = horzcat(y_arr, y_retarr);
 
-for i = 1:length(a_b_variants)
-    [x_retarr, y_retarr] = add_cassini_points_to_arrays(a_b_variants(i, 1), a_b_variants(i, 2), -10, 10);
-    my_class.type = 4;
-    my_class.par1 = {{2, x_retarr, y_retarr}};
-    my_class.par2 = {{2, [0.2, 0.2]}};
-    my_class.par3 = {1};
-    class_data{12}{end+1} = my_class;
+for i = 1:3
+    my_class.type = 4
+    my_class.par1 = 
+    [x_retarr, y_retarr] = add_cassini_points_to_arrays(0, 1, -10, 10);
+    x_arr = horzcat(x_arr, x_retarr);
+    y_arr = horzcat(y_arr, y_retarr);
 end
-axis_data{12} = [-10 10 -5 5];
+
+
+class1.type = 4;
+class1.par1 = {{2, x_arr, y_arr}};
+class1.par2 = {{2, [0, 0]}};
+class1.par3 = {1};
+
+class_data{12} = {class1, class1, class1};
+axis_data{12} = [-5 5 -5 5];
 data_type_names{12} = 'Oval Kassini';
-
-%class1.type = 4;
-%class1.par1 = {{2, x_arr, y_arr}};
-%class1.par2 = {{2, [0, 0]}};
-%class1.par3 = {1};
-
-%class_data{12} = {class1, class1, class1};
-
-
 
 % my data type end
 
@@ -463,14 +437,14 @@ end
 function [x_arr, y_arr] = add_cassini_points_to_arrays(a, b, startx, endx)
     x_arr = [];
     y_arr = [];
-    for x = startx:0.01:endx
+    for x = startx:0.1:endx
         val = get_cassini_y(x, a, b);
         if isreal(val)
             x_arr(end+1) = x;
             y_arr(end+1) = val;
         end
     end
-    for x = endx:-0.01:startx
+    for x = endx:-0.1:startx
         val = get_cassini_minus_y(x, a, b);
         if isreal(val)
             x_arr(end+1) = x;
