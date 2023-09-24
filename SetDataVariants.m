@@ -354,15 +354,15 @@ x_arr = [];
 y_arr = [];
 a_b_variants = [
     5 2.5
-    1.4 2
-    1.82 2.6
-    2.366 3.38
-    1.5 2
+    1.54 2.31
+    0 3
+    0 3.5
+    1.6 2
     1.4 1.4
     1.6 1.6
-    1.8 1.8
-    2 2
-    0 3.38
+    1.1 1.1
+    5 2
+    0 4
     ];
 
 class_data{12} = {};
@@ -384,7 +384,7 @@ for i = 1:length(a_b_variants)
     [x_retarr, y_retarr] = add_cassini_points_to_arrays(a_b_variants(i, 1), a_b_variants(i, 2), -10, 10);
     my_class.type = 4;
     my_class.par1 = {{2, x_retarr, y_retarr}};
-    my_class.par2 = {{2, [0.2, 0.2]}};
+    my_class.par2 = {{2, [0.2, 0.1]}};
     my_class.par3 = {1};
     class_data{12}{end+1} = my_class;
 end
